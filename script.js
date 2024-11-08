@@ -9,6 +9,8 @@ const qrInput = document.getElementById('qrInput');
 const scanButton = document.getElementById('scanButton');
 const result = document.getElementById('result');
 
+let deadPlayers = [];
+
 function createQRCodeElements(team, qrCodes) {
     qrCodes.forEach((code, index) => {
         const qrCodeDiv = document.createElement('div');
@@ -20,6 +22,20 @@ function createQRCodeElements(team, qrCodes) {
     });
 }
 
+function markPlayerDead(player) {
+    deadPlayers.push(player);
+    const qrCodeDivs = document.querySelectorAll('.qr-code');
+    qrCodeDivs.forEach(div => {
+        if (div.dataset.player === player) {
+            div.classList.add('dead');
+        }
+    });
+}
+
+function isPlayerDead(player) {
+    return deadPlayers.includes(player);
+}
+
 createQRCodeElements(teamAPlayers, teamAQRCodeData);
 createQRCodeElements(teamBPlayers, teamBQRCodeData);
 
@@ -29,11 +45,23 @@ scanButton.addEventListener('click', () => {
 
     // Check if the scanned code belongs to the opposing team
     if (teamAQRCodeData.includes(scannedCode)) {
-        result.innerText = 'Team B player marked as dead!';
-        found = true;
+        const player = teamAPlayers[teamAQRCodeData.indexOf(scannedCode)];
+        if (!isPlayerDead(player)) {
+            markPlayerDead(player);
+            result.innerText = `Team A player ${player} marked as dead!`;
+            found = true;
+        } else {
+            result.innerText = `Player ${player} is already dead!`;
+        }
     } else if (teamBQRCodeData.includes(scannedCode)) {
-        result.innerText = 'Team A player marked as dead!';
-        found = true;
+        const player = teamBPlayers[teamBQRCodeData.indexOf(scannedCode)];
+        if (!isPlayerDead(player)) {
+            markPlayerDead(player);
+            result.innerText = `Team B player ${player} marked as dead!`;
+            found = true;
+        } else {
+            result.innerText = `Player ${player} is already dead!`;
+        }
     }
 
     if (!found) {
