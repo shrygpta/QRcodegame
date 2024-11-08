@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>QR Code Game</h1>
+    <div id="teams">
+        <h2>Teams</h2>
+        <div id="teamA" class="team">
+            <h3>Team A</h3>
+            <div class="qr-codes" id="teamA-qr"></div>
+        </div>
+        <div id="teamB" class="team">
+            <h3>Team B</h3>
+            <div class="qr-codes" id="teamB-qr"></div>
+        </div>
+    </div>
+    <div id="gameArea">
+        <h2>Scan QR Codes</h2>
+        <input type="text" id="qrInput" placeholder="Enter QR Code Data">
+        <button id="scanButton">Scan</button>
+        <div id="result"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
